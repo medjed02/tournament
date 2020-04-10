@@ -12,7 +12,6 @@ from flask import Flask, url_for, request, render_template, redirect, abort, jso
 from data.send_task_form import SendTaskForm
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 import datetime
-from flask_restful import reqparse, Api, Resource
 from docx import Document
 import random
 import os
@@ -531,7 +530,7 @@ def get_now_time():
 
 def main():
     db_session.global_init("db/data_base.db")
-    app.run(port=5000, host="127.0.0.1")
+    app.run()
 
 
 if __name__ == "__main__":
