@@ -8,10 +8,13 @@ from data.tasks import Task
 from data.results import UserResult
 from data.attempts import Attempt, AllAttempt
 from data.get_task_form import GetTaskForm
+from requests import get
+import sys
 from flask import Flask, url_for, request, render_template, redirect, abort, jsonify, make_response
 from data.send_task_form import SendTaskForm
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 import datetime
+from flask_restful import reqparse, Api, Resource
 from docx import Document
 import random
 import os
@@ -530,7 +533,9 @@ def get_now_time():
 
 def main():
     db_session.global_init("db/data_base.db")
-    app.run(host="https://tournamentofgames.herokuapp.com")
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
+
 
 if __name__ == "__main__":
     main()
