@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Главная</h3>
+    {% if data['tour_is_started'] %}
+        <h5>Соревнование начато</h5>
+        <a class="btn btn-primary " href="/results">Перейти к таблице результатов</a>
+        {% if current_user.is_authenticated and current_user.id > 2 %}
+            {% if data['type'] == "Домино" and data['flag'] %}
+                <a class="btn btn-primary " href="/get_start_tasks">Получить первые задачи</a>
+            {% elif data['flag'] %}
+                <a class="btn btn-primary " href="/get_start_tasks">Получить задачи</a>
+            {% endif %}
+            {% if data['type'] == "Домино" and data['get_task'] %}
+                <a class="btn btn-primary " href="/get_task">Получить задачу</a>
+            {% endif %}
+        {% endif %}
+        <p></p>
+    {% else %}
+        <h5>На данный момент нет действующих соревнований</h5>
+    {% endif %}
+
+    {% if (current_user.id == 1 or current_user.id == 2) and data['tour_is_started'] %}
+        <p>Здесь будут отображаться задачи для проверки</p>
+        {% for item in data['attempts']%}
+            <div class="col-md6 border rounded">
+                <p>{{ item[0] }}</p>
+                <h2>{{ item[1] }}</h2>
+                <div>
+                    Ответ: {{ item[2] }}
+                </div>
+                {% if item[3] != "" %}
+                    <img src={{ item[3] }}>
+                {% endif %}
+                <p></p>
+                <div>
+                    <a href="/success_attempt/{{ item[4] }}/{{ item[1] }}" class="btn btn-warning">Верно</a>
+                    <a href="/ignore_attempt/{{ item[4] }}/{{ item[1] }}" class="btn btn-danger">Неверно</a>
+                </div>
+            </div>
+            <p></p>
+        {% endfor %}
+    {% elif data['tour_is_started'] and current_user.is_authenticated %}
+        <p>Здесь будут отображаться ваши задачи</p>
+        {% for item in data['now_tasks']%}
+            <div class="col-md6 border rounded">
+                <h2>{{ item[0] }}</h2>
+                <div>
+                    {{ item[1] }}
+                </div>
+                <p></p>
+                <div>
+                    <a href="/send_task/{{ item[0] }}" class="btn btn-warning">Сдать</a>
+                    {% if data['type'] == "Домино" %}
+                        <a href="/delete_task/{{ item[0] }}" class="btn btn-danger">Сброс</a>
+                    {% endif %}
+                </div>
+            </div>
+            <p></p>
+        {% endfor %}
+    {% endif %}
+
+    {% if (current_user.id == 1 or current_user.id == 2) and not data['tour_is_started'] %}
+        <a class="btn btn-primary " href="/create_tournament">Перейти к созданию соревнования</a>
+    {% elif current_user.id == 1 or current_user.id == 2 %}
+        <a class="btn btn-danger " href="/delete_tournament">Завершить соревнование</a>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Результаты</h3>
+    <a class="btn btn-primary " href="/">Вернуться на главную</a>
+    <p></p>
+    <p>Осталось времени: {{ time[0] }}:{{ time[1] }}:{{ time[2] }}</p>
+    <table width="100%" cellspacing="0" cellpadding="4" border="1">
+            <tr>
+                {% for header in headers %}
+                <th>{{ header }}</th>
+                {% endfor %}
+            </tr>
+            {% for user in data %}
+                <tr>
+                    <th>{{ loop.index }}</th>
+                    {% for item in user %}
+                        {% if item[1] == "white" %}
+                            <th>{{ item[0] }}</th>
+                        {% elif item[1] == "yellow" %}
+                            <th bgcolor="yellow">{{ item[0] }}</th>
+                        {% elif item[1] == "green" %}
+                            <th bgcolor="green">{{ item[0] }}</th>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+{% endblock %}
