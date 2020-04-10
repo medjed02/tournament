@@ -8,7 +8,6 @@ from data.tasks import Task
 from data.results import UserResult
 from data.attempts import Attempt, AllAttempt
 from data.get_task_form import GetTaskForm
-from requests import get
 import sys
 from flask import Flask, url_for, request, render_template, redirect, abort, jsonify, make_response
 from data.send_task_form import SendTaskForm
