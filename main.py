@@ -530,7 +530,7 @@ def get_now_time():
 
 def main():
     db_session.global_init("db/data_base.db")
-
+    app.run(host="https://tournamentofgames.herokuapp.com")
 
 if __name__ == "__main__":
     main()
